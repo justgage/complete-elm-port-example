@@ -3,6 +3,8 @@ port module Main exposing (main)
 import Html exposing (Html, text, div, button, input)
 import Html.Events exposing (onClick, onInput)
 import Html.Attributes exposing (type_, value)
+import Json.Encode exposing (Value)
+import Json.Decode as Decode
 
 
 main : Program Never Model Msg
@@ -45,7 +47,7 @@ init =
 port toJs : String -> Cmd msg
 
 
-port toElm : (String -> msg) -> Sub msg
+port toElm : (Value -> msg) -> Sub msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -77,6 +79,20 @@ view model =
 -- SUBSCRIPTIONS
 
 
+decodeValue : Value -> Msg
+decodeValue x =
+    let
+        result =
+            Decode.decodeValue Decode.string x
+    in
+        case result of
+            Ok string ->
+                UpdateStr string
+
+            Err _ ->
+                UpdateStr "Silly JavaScript, you can't kill me!"
+
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    toElm UpdateStr
+    toElm (decodeValue)

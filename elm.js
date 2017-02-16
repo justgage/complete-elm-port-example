@@ -8289,7 +8289,7 @@ var _user$project$Main$update = F2(
 			};
 		}
 	});
-var _user$project$Main$toElm = _elm_lang$core$Native_Platform.incomingPort('toElm', _elm_lang$core$Json_Decode$string);
+var _user$project$Main$toElm = _elm_lang$core$Native_Platform.incomingPort('toElm', _elm_lang$core$Json_Decode$value);
 var _user$project$Main$Model = function (a) {
 	return {message: a};
 };
@@ -8351,8 +8351,17 @@ var _user$project$Main$view = function (model) {
 			}
 		});
 };
+var _user$project$Main$decodeValue = function (x) {
+	var result = A2(_elm_lang$core$Json_Decode$decodeValue, _elm_lang$core$Json_Decode$string, x);
+	var _p1 = result;
+	if (_p1.ctor === 'Ok') {
+		return _user$project$Main$UpdateStr(_p1._0);
+	} else {
+		return _user$project$Main$UpdateStr('Silly JavaScript, you can\'t kill me!');
+	}
+};
 var _user$project$Main$subscriptions = function (model) {
-	return _user$project$Main$toElm(_user$project$Main$UpdateStr);
+	return _user$project$Main$toElm(_user$project$Main$decodeValue);
 };
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{init: _user$project$Main$init, update: _user$project$Main$update, view: _user$project$Main$view, subscriptions: _user$project$Main$subscriptions})();
