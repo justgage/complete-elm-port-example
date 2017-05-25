@@ -7,7 +7,7 @@
    app.ports.toJs.subscribe(function (str) {
       console.log("got from Elm", str);
       // send something back to Elm
-      var uppercase = str.toUpperCase() + " undefined is not a function" ;
+      var uppercase = undefined;
       app.ports.toElm.send(uppercase);
    });
 
